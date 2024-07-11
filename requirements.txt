@@ -7,5 +7,6 @@ pymongo==4.8.0
 python-dotenv==1.0.1
 redis==5.0.7
 requests==2.32.3
+schedule==1.2.2
 spotipy==2.24.0
 urllib3==2.2.2
