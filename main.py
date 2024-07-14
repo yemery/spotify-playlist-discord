@@ -37,15 +37,10 @@ def check_new_tracks():
             removed = old_tracks[~old_tracks.index.isin(new_tracks.index)]
             print(added)
             print(removed)
-
-           
-                # print infos about the new tracks added and removed
-                # print(f"New tracks added to {playlist_data.get('name')} playlist")
-                # print(added)
-                # print(f"Tracks removed from {playlist_data.get('name')} playlist")
-                # print(removed)
-            #
-            # print(f"New tracks added to {playlist_data.get('name')} playlist")
+            # limit of api is 100 songs well use offset and next to get all songs
+            
+            
+            
 
             # # update the db with the new tracks
             # db["playlists"].update_one({"id": playlist_id}, {"$set": {"total_tracks": playlist_data.get("total_tracks")}})
