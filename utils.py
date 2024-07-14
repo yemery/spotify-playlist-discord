@@ -66,39 +66,41 @@ def get_playlist_info(playlist_id):
         if next_page is None:
             break
         else:
-            offset += limit
             # got only tracks in the playlist not the whole playist info
             next_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?offset={offset}&limit={limit}'
             response = req.get(next_url, headers=headers)
-            # next_page= response.json()["tracks"]["next"]
+           
             # update next_page to check if there is more pages
             next_page = response.json()["next"]
             
-            print("*" * 50,'next')
-            # print(response.json()["items"])
+            # print("*" * 50,'next')
+            # # print(response.json()["items"])
             
             if next_page is not None:
                 # print(next_page)
-                print(len(data["tracks"]["items"]))
+                # print(len(data["tracks"]["items"]))
                 data["tracks"]["items"].extend(response.json()['items'])
-                print(len(data["tracks"]["items"]))
+            offset += limit
+                # print(len(data["tracks"]["items"]))
                 
                 # print(len(response.json()["tracks"]["items"]))
 
     # get total of tracks in the playlist
     # print(response.json()['tracks']['total'])
-    print("last check "*50)
-    print(len(data["tracks"]["items"]))
-    # return data
+    # print("last check "*50)
+    # print(len(data["tracks"]["items"]))
+    # print(data["name"])
+    # print(len(data['tracks']['items']))
+    return data
 
     # return response.json()
     # print(response.json())
     print("finished")
 
 
-print(
-    get_playlist_info("5HrFvEtqcGW1LEv0G7GWi2")
-)  # testing the function with black playlist id
+# print(
+#     get_playlist_info("5HrFvEtqcGW1LEv0G7GWi2")
+# )  # testing the function with black playlist id
 
 # track infos : added_by , track_name , artist_name , track_id , track_uri , track_href
 
