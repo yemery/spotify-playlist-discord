@@ -97,3 +97,8 @@ def get_user_info(user_id):
         "image": response.json().get("images")[0].get("url"),
     }
     return data
+
+# spotify embeded player using link : https://open.spotify.com/track/ with id 
+def notify_discord(message):
+    pass
+    

@@ -37,15 +37,37 @@ def check_new_tracks():
             # check if new tracks been added or track been removed
             added = new_tracks[~new_tracks.index.isin(old_tracks.index)]
             removed = old_tracks[~old_tracks.index.isin(new_tracks.index)]
-            print("added")
-            print(added)
-            # test converting dataframe to list of dicts
-            print("list of dict")
-            # print(added.values.tolist())
-            print(added.to_dict("records"))
 
-            print("removed")
-            print(removed)
+            if added is None:
+                added_tracks = added.to_dict("records")
+            if removed is None:
+                removed_tracks = removed.to_dict("records")
+
+            try:
+                db["playlists"].update_one(
+                {"id": playlist_id},
+                {
+                    "$set": {
+                        "total_tracks": playlist_data.get("total_tracks"),
+                        "tracks": playlist_data.get("tracks"),
+                    }
+                },
+            )
+                print("Playlist updated successfully")
+            except Exception as e:
+                print("Error in updating playlist")
+                print(e)
+        
+
+            # print("added")
+            # print(added)
+            # # test converting dataframe to list of dicts
+            # print("list of dict")
+            # # print(added.values.tolist())
+            # print(added.to_dict("records"))
+
+            # print("removed")
+            # print(removed)
             # limit of api is 100 songs well use offset and next to get all songs
 
             # # update the db with the new tracks
