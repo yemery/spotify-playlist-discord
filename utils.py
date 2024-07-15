@@ -2,9 +2,7 @@ from config import *
 import requests as req
 import base64
 
-# print (SPOTIPY_CLIENT_ID)
 
-# print(SPOTIPY_CLIENT_ID,    SPOTIPY_CLIENT_SECRET)
 
 
 def get_tokens():
@@ -37,11 +35,8 @@ def get_playlist_info(playlist_id):
     # should send the token in the header as a bearer token and playlist id in the data
     headers = {"Authorization": "Bearer " + get_tokens()}
     response = req.get(url, headers=headers)
-    # limit of tracks is 100 so i need to use offset and next to get all tracks
-    # print(response.json().get("tracks").get("items"))
-    # print(response.json().get("tracks").get("next"))
-    # print(response.json().get("tracks").get("offset"))
-
+   
+    # later cleaning data to store only used one without the whole response 
     data = {
         "id": response.json().get("id"),
         "uri": response.json().get("uri"),
@@ -54,8 +49,6 @@ def get_playlist_info(playlist_id):
         "total_tracks": response.json().get("tracks").get("total"),
         "tracks": response.json().get("tracks"),
         "owner": response.json().get("owner").get("display_name"),
-        # "image": response.json().get("images")[0].get("url")
-        # tracks infos with added by and track name and artist name
     }
     # limit and offset to get all tracks in the playlist by resending the request with offset and next
     limit = 100
@@ -67,35 +60,22 @@ def get_playlist_info(playlist_id):
             break
         else:
             # got only tracks in the playlist not the whole playist info
-            next_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?offset={offset}&limit={limit}'
-            response = req.get(next_url, headers=headers)
-           
+            offset += limit
+            # next_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?offset={offset}&limit={limit}'
+            response = req.get(next_page, headers=headers)
+
+            data["tracks"]["items"].extend(response.json()['items'])
             # update next_page to check if there is more pages
             next_page = response.json()["next"]
-            
-            # print("*" * 50,'next')
-            # # print(response.json()["items"])
-            
-            if next_page is not None:
-                # print(next_page)
-                # print(len(data["tracks"]["items"]))
-                data["tracks"]["items"].extend(response.json()['items'])
-            offset += limit
-                # print(len(data["tracks"]["items"]))
+                      
+            # if next_page is not None:
                 
-                # print(len(response.json()["tracks"]["items"]))
+               
+    print(data['tracks']['total'])
+    print(len(data["tracks"]["items"]))
+    # return data
 
-    # get total of tracks in the playlist
-    # print(response.json()['tracks']['total'])
-    # print("last check "*50)
-    # print(len(data["tracks"]["items"]))
-    # print(data["name"])
-    # print(len(data['tracks']['items']))
-    return data
 
-    # return response.json()
-    # print(response.json())
-    print("finished")
 
 
 # print(
