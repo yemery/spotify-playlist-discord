@@ -43,9 +43,9 @@ def get_playlist_info(playlist_id):
         "name": response.json().get("name"),
         # "description": response.json().get("description"),
         # "followers": response.json().get("followers").get("total"),
-        "public": response.json().get("public"),
-        "type": response.json().get("type"),
-        "collaborative": response.json().get("collaborative"),
+        # "public": response.json().get("public"),
+        # "type": response.json().get("type"),
+        # "collaborative": response.json().get("collaborative"),
         "total_tracks": response.json().get("tracks").get("total"),
         "tracks": response.json().get("tracks"),
         "owner": response.json().get("owner").get("display_name"),
@@ -63,7 +63,7 @@ def get_playlist_info(playlist_id):
             offset += limit
             # next_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?offset={offset}&limit={limit}'
             response = req.get(next_page, headers=headers)
-
+            # cleanup items to store only needed data
             data["tracks"]["items"].extend(response.json()['items'])
             # update next_page to check if there is more pages
             next_page = response.json()["next"]
@@ -71,9 +71,9 @@ def get_playlist_info(playlist_id):
             # if next_page is not None:
                 
                
-    print(data['tracks']['total'])
-    print(len(data["tracks"]["items"]))
-    # return data
+    # print(data['tracks']['total'])
+    # print(len(data["tracks"]["items"]))
+    return data
 
 
 
