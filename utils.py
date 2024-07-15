@@ -2,6 +2,8 @@ from config import *
 import requests as req
 import base64
 
+from discord_webhook import DiscordWebhook
+
 
 
 
@@ -100,5 +102,8 @@ def get_user_info(user_id):
 
 # spotify embeded player using link : https://open.spotify.com/track/ with id 
 def notify_discord(message):
-    pass
+    webhook = DiscordWebhook(url=DISCORD_WEBHOOK_URL, content=message)
+    response = webhook.execute()
     
+    
+# notify_discord(f'Hello from spotify playlist bot https://open.spotify.com/track/2TBQumizpQavXCYKVmioeu')
